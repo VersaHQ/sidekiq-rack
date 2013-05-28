@@ -1,17 +1,13 @@
 require 'sidekiq'
+environment = ENV['RAILS_ENV'] || "development"
+config_vars = YAML.load_file("./config.yml")[environment]
 
 use Rack::Auth::Basic do |username, password|
-  username == "electnext" && password == "secret"
+  username == config_vars["username"] && password == config_vars["password"]
 end
 
 Sidekiq.configure_client do |config|
-  if ENV['RAILS_ENV'] == "production"
-    config.redis = { :url => 'redis://redis-1.electnext.com:6379' }
-  elsif ENV['RAILS_ENV'] == "staging"
-    config.redis = { :url => 'redis://redis-staging.electnext.com:6379' }
-  else
-    config.redis = { :url => 'redis://localhost:6379' }
-  end
+  config.redis = { :url => config_vars["redis_url"] }
 end
 
 require 'sidekiq/web'

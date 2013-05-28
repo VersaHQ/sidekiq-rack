@@ -1,0 +1,14 @@
+development:
+  username: your_username
+  password: your_password
+  redis_url: redis://localhost:6379
+
+staging:
+  username: 
+  password: 
+  redis_url: 
+
+production:
+  username: 
+  password: 
+  redis_url: 
