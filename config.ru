@@ -1,6 +1,5 @@
 require 'sidekiq'
 require 'yaml'
-require 'sidekiq-failures'
 
 environment = ENV['RAILS_ENV'] || "development"
 config_vars = YAML.load_file("./config.yml")[environment]
