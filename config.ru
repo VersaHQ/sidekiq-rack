@@ -4,8 +4,10 @@ require 'yaml'
 environment = ENV['RAILS_ENV'] || "development"
 config_vars = YAML.load_file("./config.yml")[environment]
 
-use Rack::Auth::Basic do |username, password|
-  username == config_vars["username"] && password == config_vars["password"]
+unless environment == "development"
+  use Rack::Auth::Basic do |username, password|
+    username == config_vars["username"] && password == config_vars["password"]
+  end
 end
 
 Sidekiq.configure_client do |config|
